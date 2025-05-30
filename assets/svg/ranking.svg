@@ -1,0 +1,22 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ranking bars -->
+  <rect x="3" y="14" width="3" height="6" fill="currentColor" rx="1"/>
+  <rect x="7.5" y="10" width="3" height="10" fill="currentColor" rx="1"/>
+  <rect x="12" y="6" width="3" height="14" fill="currentColor" rx="1"/>
+  <rect x="16.5" y="12" width="3" height="8" fill="currentColor" rx="1"/>
+  
+  <!-- Algorithm symbols -->
+  <circle cx="5" cy="4" r="1" fill="currentColor"/>
+  <circle cx="9" cy="4" r="1" fill="currentColor"/>
+  <circle cx="13" cy="4" r="1" fill="currentColor"/>
+  <circle cx="17" cy="4" r="1" fill="currentColor"/>
+  
+  <!-- Connection lines -->
+  <path d="M5 5 L5 13" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2"/>
+  <path d="M9 5 L9 9" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2"/>
+  <path d="M13 5 L13 5.5" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2"/>
+  <path d="M17 5 L17 11" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2"/>
+  
+  <!-- Trophy for #1 -->
+  <path d="M12.5 2 L13.5 2 L13.8 1.5 L12.2 1.5 Z" fill="currentColor"/>
+</svg> 

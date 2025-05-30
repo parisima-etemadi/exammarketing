@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../models/study_topic.dart';
 import '../utils/constants.dart';
 
@@ -33,8 +34,27 @@ class _StudyCardState extends State<StudyCard> with TickerProviderStateMixin {
     _animationController.forward();
   }
 
+  String? _getSvgIcon() {
+    String title = widget.section.title.toLowerCase();
+    
+    if (title.contains('اسپایدر') || title.contains('جستجوی اسپایدرها')) {
+      return 'assets/svg/spider.svg';
+    } else if (title.contains('ایندکس') || title.contains('ایندکس کردن')) {
+      return 'assets/svg/database.svg';
+    } else if (title.contains('جستجوی کاربر') || title.contains('کاربر')) {
+      return 'assets/svg/user_search.svg';
+    } else if (title.contains('رتبه') || title.contains('رتبه‌بندی')) {
+      return 'assets/svg/ranking.svg';
+    }
+    
+    // Return null if no icon matches
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final iconPath = _getSvgIcon();
+    
     return SlideTransition(
       position: _slideAnimation,
       child: FadeTransition(
@@ -56,7 +76,7 @@ class _StudyCardState extends State<StudyCard> with TickerProviderStateMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              // Section Title
+              // Section Title with Icon (only if icon exists)
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(20),
@@ -66,16 +86,51 @@ class _StudyCardState extends State<StudyCard> with TickerProviderStateMixin {
                   ),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Text(
-                  widget.section.title,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: widget.color,
-                  ),
-                  textAlign: TextAlign.center,
-                  textDirection: TextDirection.rtl,
-                ),
+                child: iconPath != null 
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      textDirection: TextDirection.rtl,
+                      children: [
+                        // Title Text - flexible and centered
+                        Flexible(
+                          child: Text(
+                            widget.section.title,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: widget.color,
+                            ),
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        // SVG Icon (fixed size)
+                        SvgPicture.asset(
+                          iconPath,
+                          width: 28,
+                          height: 28,
+                          colorFilter: ColorFilter.mode(
+                            widget.color,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      widget.section.title,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: widget.color,
+                      ),
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.rtl,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
               ),
               
               SizedBox(height: 20),
