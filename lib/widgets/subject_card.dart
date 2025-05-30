@@ -38,6 +38,7 @@ class SubjectCard extends StatelessWidget {
           ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               textDirection: TextDirection.rtl,
@@ -53,7 +54,8 @@ class SubjectCard extends StatelessWidget {
                 SizedBox(width: 15),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         title,
@@ -76,36 +78,43 @@ class SubjectCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_back_ios, color: color, size: 16),
+                SizedBox(width: 10),
               ],
             ),
             SizedBox(height: 15),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[700],
-                height: 1.4,
+            Container(
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.rtl,
+                ),
               ),
-              textAlign: TextAlign.justify,
-              textDirection: TextDirection.rtl,
             ),
             if (sectionsCount != null) ...[
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  '$sectionsCount بخش',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: color,
-                    fontWeight: FontWeight.bold,
+              SizedBox(height: 15),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  textDirection: TextDirection.rtl,
+                  child: Text(
+                    '$sectionsCount بخش',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textDirection: TextDirection.rtl,
+                  ),
                 ),
               ),
             ],

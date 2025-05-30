@@ -62,25 +62,44 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: showResult ? _buildResultScreen() : _buildQuizScreen(),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Determine screen size categories
+          final isLargeScreen = constraints.maxWidth > 600;
+          final isExtraLargeScreen = constraints.maxWidth > 1200;
+          
+          return Center(
+            child: Container(
+              // Limit max width for larger screens
+              constraints: BoxConstraints(
+                maxWidth: isExtraLargeScreen ? 1200 : 
+                         isLargeScreen ? 800 : double.infinity,
+              ),
+              child: showResult 
+                ? _buildResultScreen(isLargeScreen, constraints.maxWidth) 
+                : _buildQuizScreen(isLargeScreen, constraints.maxWidth),
+            ),
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildQuizScreen() {
+  Widget _buildQuizScreen(bool isLargeScreen, double screenWidth) {
     final question = questions[currentQuestion];
     
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(isLargeScreen ? 30 : 20),
       child: Column(
         children: [
           // Progress Header
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(isLargeScreen ? 30 : 20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [AppColors.quiz.withOpacity(0.1), AppColors.quiz.withOpacity(0.05)],
               ),
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(isLargeScreen ? 20 : 15),
             ),
             child: Column(
               children: [
@@ -90,7 +109,7 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                     Text(
                       'سوال ${currentQuestion + 1} از ${questions.length}',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: isLargeScreen ? 20 : 16,
                         fontWeight: FontWeight.bold,
                         color: AppColors.quiz,
                       ),
@@ -99,7 +118,7 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                     Text(
                       'امتیاز: $score',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: isLargeScreen ? 20 : 16,
                         fontWeight: FontWeight.bold,
                         color: AppColors.quiz,
                       ),
@@ -107,17 +126,20 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: isLargeScreen ? 15 : 10),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isLargeScreen ? 16 : 12, 
+                    vertical: isLargeScreen ? 10 : 6,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.quiz.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(isLargeScreen ? 15 : 12),
                   ),
                   child: Text(
                     'دسته: ${question.category}',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: isLargeScreen ? 16 : 12,
                       color: AppColors.quiz,
                       fontWeight: FontWeight.bold,
                     ),
@@ -128,27 +150,27 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
             ),
           ),
           
-          SizedBox(height: 30),
+          SizedBox(height: isLargeScreen ? 40 : 30),
           
           // Question Card
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(25),
+            padding: EdgeInsets.all(isLargeScreen ? 35 : 25),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(isLargeScreen ? 25 : 20),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black12,
-                  blurRadius: 15,
-                  offset: Offset(0, 8),
+                  blurRadius: isLargeScreen ? 20 : 15,
+                  offset: Offset(0, isLargeScreen ? 12 : 8),
                 ),
               ],
             ),
             child: Text(
               question.question,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: isLargeScreen ? 24 : 20,
                 fontWeight: FontWeight.bold,
                 color: AppColors.dark,
                 height: 1.5,
@@ -158,7 +180,7 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
             ),
           ),
           
-          SizedBox(height: 30),
+          SizedBox(height: isLargeScreen ? 40 : 30),
           
           // Options
           Expanded(
@@ -166,28 +188,31 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
               itemCount: question.options.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(vertical: 8),
+                  margin: EdgeInsets.symmetric(vertical: isLargeScreen ? 12 : 8),
                   child: ElevatedButton(
                     onPressed: () => answerQuestion(index),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: AppColors.dark,
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(isLargeScreen ? 25 : 20),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        side: BorderSide(color: AppColors.quiz, width: 2),
+                        borderRadius: BorderRadius.circular(isLargeScreen ? 20 : 15),
+                        side: BorderSide(
+                          color: AppColors.quiz, 
+                          width: isLargeScreen ? 3 : 2,
+                        ),
                       ),
-                      elevation: 5,
+                      elevation: isLargeScreen ? 8 : 5,
                     ),
                     child: Row(
                       textDirection: TextDirection.rtl,
                       children: [
                         Container(
-                          width: 30,
-                          height: 30,
+                          width: isLargeScreen ? 40 : 30,
+                          height: isLargeScreen ? 40 : 30,
                           decoration: BoxDecoration(
                             color: AppColors.quiz.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(isLargeScreen ? 20 : 15),
                           ),
                           child: Center(
                             child: Text(
@@ -195,15 +220,16 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.quiz,
+                                fontSize: isLargeScreen ? 18 : 14,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 15),
+                        SizedBox(width: isLargeScreen ? 20 : 15),
                         Expanded(
                           child: Text(
                             question.options[index],
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: isLargeScreen ? 18 : 16),
                             textDirection: TextDirection.rtl,
                           ),
                         ),
@@ -219,7 +245,7 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
     );
   }
 
-  Widget _buildResultScreen() {
+  Widget _buildResultScreen(bool isLargeScreen, double screenWidth) {
     double percentage = (score / questions.length) * 100;
     String resultMessage;
     Color resultColor;
@@ -244,21 +270,21 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
     }
 
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(isLargeScreen ? 30 : 20),
       child: Column(
         children: [
           // Result Card
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(isLargeScreen ? 40 : 30),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(isLargeScreen ? 25 : 20),
                 boxShadow: [
                   BoxShadow(
                     color: resultColor.withOpacity(0.3),
-                    blurRadius: 15,
-                    offset: Offset(0, 8),
+                    blurRadius: isLargeScreen ? 20 : 15,
+                    offset: Offset(0, isLargeScreen ? 12 : 8),
                   ),
                 ],
               ),
@@ -266,24 +292,24 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(isLargeScreen ? 30 : 20),
                     decoration: BoxDecoration(
                       color: resultColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(isLargeScreen ? 60 : 50),
                     ),
                     child: Icon(
                       resultIcon,
-                      size: 80,
+                      size: isLargeScreen ? 100 : 80,
                       color: resultColor,
                     ),
                   ),
                   
-                  SizedBox(height: 30),
+                  SizedBox(height: isLargeScreen ? 40 : 30),
                   
                   Text(
                     resultMessage,
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: isLargeScreen ? 28 : 24,
                       fontWeight: FontWeight.bold,
                       color: resultColor,
                     ),
@@ -291,30 +317,30 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                     textDirection: TextDirection.rtl,
                   ),
                   
-                  SizedBox(height: 30),
+                  SizedBox(height: isLargeScreen ? 40 : 30),
                   
                   // Score Display
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(isLargeScreen ? 25 : 20),
                     decoration: BoxDecoration(
                       color: resultColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(isLargeScreen ? 20 : 15),
                     ),
                     child: Column(
                       children: [
                         Text(
                           'نمره شما',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: isLargeScreen ? 20 : 16,
                             color: AppColors.dark,
                           ),
                           textDirection: TextDirection.rtl,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: isLargeScreen ? 15 : 10),
                         Text(
                           '$score از ${questions.length}',
                           style: TextStyle(
-                            fontSize: 32,
+                            fontSize: isLargeScreen ? 40 : 32,
                             fontWeight: FontWeight.bold,
                             color: resultColor,
                           ),
@@ -322,7 +348,7 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                         Text(
                           '${percentage.toStringAsFixed(1)}%',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: isLargeScreen ? 24 : 20,
                             fontWeight: FontWeight.bold,
                             color: resultColor,
                           ),
@@ -331,24 +357,28 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                     ),
                   ),
                   
-                  SizedBox(height: 30),
+                  SizedBox(height: isLargeScreen ? 40 : 30),
                   
                   // Detailed Results
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(isLargeScreen ? 20 : 15),
                       decoration: BoxDecoration(
                         color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(isLargeScreen ? 20 : 15),
                       ),
                       child: Column(
                         children: [
                           Text(
                             'جزئیات نتایج',
-                            style: AppStyles.subheading,
+                            style: TextStyle(
+                              fontSize: isLargeScreen ? 20 : 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.dark,
+                            ),
                             textDirection: TextDirection.rtl,
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: isLargeScreen ? 20 : 15),
                           Expanded(
                             child: ListView.builder(
                               itemCount: questions.length,
@@ -357,14 +387,14 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                                 final isCorrect = userAnswers[index] == question.correctAnswer;
                                 
                                 return Container(
-                                  margin: EdgeInsets.symmetric(vertical: 4),
-                                  padding: EdgeInsets.all(12),
+                                  margin: EdgeInsets.symmetric(vertical: isLargeScreen ? 6 : 4),
+                                  padding: EdgeInsets.all(isLargeScreen ? 16 : 12),
                                   decoration: BoxDecoration(
                                     color: isCorrect ? AppColors.success.withOpacity(0.1) : AppColors.danger.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(isLargeScreen ? 15 : 10),
                                     border: Border.all(
                                       color: isCorrect ? AppColors.success : AppColors.danger,
-                                      width: 1,
+                                      width: isLargeScreen ? 2 : 1,
                                     ),
                                   ),
                                   child: Row(
@@ -373,14 +403,14 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
                                       Icon(
                                         isCorrect ? Icons.check_circle : Icons.cancel,
                                         color: isCorrect ? AppColors.success : AppColors.danger,
-                                        size: 20,
+                                        size: isLargeScreen ? 24 : 20,
                                       ),
-                                      SizedBox(width: 10),
+                                      SizedBox(width: isLargeScreen ? 15 : 10),
                                       Expanded(
                                         child: Text(
                                           'سوال ${index + 1}: ${question.category}',
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: isLargeScreen ? 16 : 14,
                                             color: AppColors.dark,
                                           ),
                                           textDirection: TextDirection.rtl,
@@ -401,47 +431,92 @@ class _ComprehensiveQuizScreenState extends State<ComprehensiveQuizScreen> {
             ),
           ),
           
-          SizedBox(height: 20),
+          SizedBox(height: isLargeScreen ? 30 : 20),
           
           // Action Buttons
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: resetQuiz,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.quiz,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: Text(
-                    'آزمون دوباره',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(width: 15),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: Text(
-                    'صفحه اصلی',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
+          _buildActionButtons(isLargeScreen, screenWidth),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButtons(bool isLargeScreen, double screenWidth) {
+    // Stack buttons vertically on very small screens
+    final shouldStack = screenWidth < 400;
+    
+    if (shouldStack) {
+      return Column(
+        children: [
+          _buildActionButton(
+            text: 'آزمون دوباره',
+            color: AppColors.quiz,
+            onPressed: resetQuiz,
+            isLargeScreen: isLargeScreen,
+            width: double.infinity,
+          ),
+          SizedBox(height: 10),
+          _buildActionButton(
+            text: 'صفحه اصلی',
+            color: AppColors.primary,
+            onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+            isLargeScreen: isLargeScreen,
+            width: double.infinity,
           ),
         ],
+      );
+    }
+    
+    // Default horizontal layout
+    return Row(
+      children: [
+        Expanded(
+          child: _buildActionButton(
+            text: 'آزمون دوباره',
+            color: AppColors.quiz,
+            onPressed: resetQuiz,
+            isLargeScreen: isLargeScreen,
+          ),
+        ),
+        SizedBox(width: isLargeScreen ? 20 : 15),
+        Expanded(
+          child: _buildActionButton(
+            text: 'صفحه اصلی',
+            color: AppColors.primary,
+            onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+            isLargeScreen: isLargeScreen,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButton({
+    required String text,
+    required Color color,
+    required VoidCallback onPressed,
+    required bool isLargeScreen,
+    double? width,
+  }) {
+    return Container(
+      width: width,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          padding: EdgeInsets.symmetric(vertical: isLargeScreen ? 18 : 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(isLargeScreen ? 20 : 15),
+          ),
+          elevation: isLargeScreen ? 8 : 5,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: isLargeScreen ? 18 : 16, 
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
