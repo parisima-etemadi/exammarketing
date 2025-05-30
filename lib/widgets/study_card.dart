@@ -40,7 +40,7 @@ class _StudyCardState extends State<StudyCard> with TickerProviderStateMixin {
     if (title.contains('اسپایدر') || title.contains('جستجوی اسپایدرها')) {
       return 'assets/svg/spider.svg';
     } else if (title.contains('ایندکس') || title.contains('ایندکس کردن')) {
-      return 'assets/svg/database.svg';
+      return 'assets/svg/index.svg';
     } else if (title.contains('جستجوی کاربر') || title.contains('کاربر')) {
       return 'assets/svg/user_search.svg';
     } else if (title.contains('رتبه') || title.contains('رتبه‌بندی')) {
@@ -112,10 +112,6 @@ class _StudyCardState extends State<StudyCard> with TickerProviderStateMixin {
                           iconPath,
                           width: 28,
                           height: 28,
-                          colorFilter: ColorFilter.mode(
-                            widget.color,
-                            BlendMode.srcIn,
-                          ),
                         ),
                       ],
                     )

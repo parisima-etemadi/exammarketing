@@ -3,7 +3,6 @@ import '../widgets/subject_card.dart';
 import '../utils/app_data.dart';
 import '../utils/constants.dart';
 import 'topic_detail_screen.dart';
-import 'quiz/comprehensive_quiz_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -95,63 +94,9 @@ class HomeScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                             horizontal: isLargeScreen ? 40 : 20,
                           ),
-                          child: Column(
-                            children: [
-                              // Study Topics
-                              Expanded(
-                                child: isLargeScreen 
-                                  ? _buildGridView(topics, constraints)
-                                  : _buildListView(topics),
-                              ),
-                              
-                              // Comprehensive Quiz Button
-                              Container(
-                                width: double.infinity,
-                                constraints: BoxConstraints(
-                                  maxWidth: isLargeScreen ? 500 : double.infinity,
-                                ),
-                                margin: EdgeInsets.symmetric(vertical: 15),
-                                child: ElevatedButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ComprehensiveQuizScreen(),
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.quiz,
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: isLargeScreen ? 20 : 18,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    textDirection: TextDirection.rtl,
-                                    children: [
-                                      Text(
-                                        'آزمون جامع (تمام مباحث)',
-                                        style: TextStyle(
-                                          fontSize: isLargeScreen ? 18 : 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                        textDirection: TextDirection.rtl,
-                                      ),
-                                      SizedBox(width: 10),
-                                      Icon(
-                                        Icons.quiz, 
-                                        color: Colors.white, 
-                                        size: isLargeScreen ? 28 : 24,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: isLargeScreen 
+                            ? _buildGridView(topics, constraints)
+                            : _buildListView(topics),
                         ),
                       ),
                     ],
@@ -195,7 +140,7 @@ class HomeScreen extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        childAspectRatio: 1.5,
+        childAspectRatio: 1.1,
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
       ),

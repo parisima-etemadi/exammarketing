@@ -39,6 +39,7 @@ class SubjectCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               textDirection: TextDirection.rtl,
@@ -65,6 +66,8 @@ class SubjectCard extends StatelessWidget {
                           color: Color(0xFF2c3e50),
                         ),
                         textDirection: TextDirection.rtl,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 5),
                       Text(
@@ -74,6 +77,8 @@ class SubjectCard extends StatelessWidget {
                           color: Colors.grey[600],
                         ),
                         textDirection: TextDirection.rtl,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -82,18 +87,22 @@ class SubjectCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15),
-            Container(
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    height: 1.4,
+            Flexible(
+              child: Container(
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                      height: 1.4,
+                    ),
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  textAlign: TextAlign.center,
-                  textDirection: TextDirection.rtl,
                 ),
               ),
             ),
